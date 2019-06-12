@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios'
 
-const tokenStr = 'Bearer sk_test_cf0616be6156226583bf8ad620f490ae5fa27e5d'
-
 const axiosInstance = axios.create({
   baseURL: "https://api.paystack.co/",
   timeout: 5000,
@@ -33,13 +31,24 @@ export default class FirstPage extends Component {
     
     axiosInstance.get( "bank")
       .then(res => {
-        console.log(res)
-        const listBanks = res.data;
+        const listBanks = res.data.data;
         this.setState( {listBank: listBanks} );
       },
       (error) => {
         console.log(error.response.status)
       })
+  }
+
+  verify(event){
+    axiosInstance.get( "bank/resolve")
+    .then(res => {
+      console.log(res)
+      const listBanks = res.data.data;
+      this.setState( {listBank: listBanks} );
+    },
+    (error) => {
+      console.log(error.response.status)
+    })
   }
 
   handleChange(event) {
