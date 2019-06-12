@@ -34,8 +34,8 @@ export default class FirstPage extends Component {
     axiosInstance.get( "bank")
       .then(res => {
         console.log(res)
-        const listBank = res.data;
-        this.setState( listBank );
+        const listBanks = res.data;
+        this.setState( {listBank: listBanks} );
       },
       (error) => {
         console.log(error.response.status)
