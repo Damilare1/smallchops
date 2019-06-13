@@ -16,7 +16,6 @@ export default class TransferPage extends Component {
       transfer_code:'',
       otp:'',
       payConfirm: '',
-      listRecipients: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -79,29 +78,16 @@ export default class TransferPage extends Component {
   }
 );
   }
-  componentDidMount() {
-    const {axiosInstance} = this.props
-    axiosInstance.get("transferrecipient").then(
-      res => {
-        const customers = res.data.data;
-        this.setState({
-          listRecipients: customers
-          //isLoading: false
-        });
-        console.log(this.state.listRecipients)
-      },
-      error => {
-        console.log(error.response.status);
-      }
-    );
-  }
+ 
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
 
   render() {
-    const { amount, reason, recipient, error, otp, transfer_code, payConfirm, listRecipients, message } = this.state;
+    const { amount, reason, error, otp, transfer_code, payConfirm, message } = this.state;
+    const {listRecipients} = this.props
+
     
     return (
       <div>

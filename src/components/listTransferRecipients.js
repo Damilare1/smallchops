@@ -17,29 +17,10 @@ export default class ListTransferRecipient extends Component {
     //  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    const {axiosInstance} = this.props
-    axiosInstance.get("transferrecipient").then(
-      res => {
-        const customers = res.data.data;
-        console.log(customers)
-        this.setState(
-          {listCustomers:customers
-          //isLoading: false
-        }        );
-        console.log(this.state.listCustomers)
-      },
-      error => {
-        console.log(error.response.status);
-      }
-    );
-  }
-
+ 
   render() {
-    const {
-      listCustomers,
-      
-    } = this.state;
+    const {listRecipients} = this.props
+
     return (
       <div>
         <table>
@@ -48,20 +29,20 @@ export default class ListTransferRecipient extends Component {
             <th>Bank</th>
             <th>Type</th>
           </tr>
-          {listCustomers.length >= 1 ? (
-            listCustomers.map(customer => (
+          {listRecipients.length >= 1 ? (
+            listRecipients.map(customer => (
               <tr>
                 <th>{customer.name}</th>
-                <th>{/*customer.details.bank_name*/}</th>
+                <th>{customer.details.bank_name}</th>
                 <th>{customer.type}</th>
                
               </tr>
             ))
           ) : (
             <tr>
-              <th>{listCustomers.name}</th>
+              <th>{listRecipients.name}</th>
               <th>{/*listCustomers.details.bank_name*/}</th>
-              <th>{listCustomers.type}</th>
+              <th>{listRecipients.type}</th>
             </tr>
           ) }
         </table>

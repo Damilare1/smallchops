@@ -27,7 +27,6 @@ export default class fifthPage extends Component {
       transfer_code:'',
       otp:'',
       payConfirm: '',
-      listRecipients: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -70,21 +69,6 @@ export default class fifthPage extends Component {
   }
 
  
-  componentDidMount() {
-    axiosInstance.get("transferrecipient").then(
-      res => {
-        const customers = res.data.data;
-        this.setState({
-          listRecipients: customers
-          //isLoading: false
-        });
-        console.log(this.state.listRecipients)
-      },
-      error => {
-        console.log(error.response.status);
-      }
-    );
-  }
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -101,7 +85,8 @@ export default class fifthPage extends Component {
   }
 
   render() {
-    const { amount, row, recipient, listRecipients, message, error } = this.state;
+    const { amount, row, recipient, message, error } = this.state;
+    const {listRecipients} = this.props
     
     return (
       <div>

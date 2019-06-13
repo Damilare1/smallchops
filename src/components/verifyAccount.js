@@ -31,7 +31,7 @@ export default class VerifyAccount extends Component {
         this.setState({ listBank: listBanks });
       },
       error => {
-        console.log(error.response.status);
+        console.log(error.response);
       }
     );
 
