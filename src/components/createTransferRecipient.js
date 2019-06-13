@@ -1,33 +1,36 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 
-const axiosInstance = axios.create({
-  baseURL: "https://api.paystack.co/",
-  timeout: 5000,
-  headers: {
-    Authorization: "Bearer sk_test_cf0616be6156226583bf8ad620f490ae5fa27e5d"
-    //  'Content-Type': 'application/json'
-  }
-});
-
-export default class FirstPage extends Component {
+export default class CreateTransferRecipient extends Component {
+  //add verification to ensure account added is correct
+  
   constructor(props) {
     super(props);
 
     this.state = {
-      listBank: [],
-      listCustomers: [],
+      type: "nuban",
       account_number: "",
+      name: "",
       account_name: "",
-      bank_code: ""
+      bank_code: "",
+      listBank:[],
+      balance: "",
+      currency: "NGN",
+      description: "",
+      authorizationCode:"",
+      message:"",
+      
+
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.verify = this.verify.bind(this);
+    this.addTransferRecipient = this.addTransferRecipient.bind(this)
+    //this.verify = this.verify.bind(this);
     //  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
+    const {axiosInstance} = this.props
     axiosInstance.get("bank").then(
       res => {
         const listBanks = res.data.data;
@@ -39,14 +42,22 @@ export default class FirstPage extends Component {
     );
   }
 
-  verify(event) {
-    const { account_number, bank_code } = this.state;
 
-    axiosInstance.get("bank/resolve", { account_number, bank_code }).then(
+  addTransferRecipient() {
+    const {axiosInstance} = this.props
+    const { account_number, bank_code, type,  currency, name  } = this.state;
+    axiosInstance.post("transferrecipient",{
+          type:type,
+          name:name,
+          account_number:account_number,
+          bank_code:bank_code,
+          currency:currency,
+    
+    }).then(
       res => {
         console.log(res);
-        const accountDetails = res.data.data;
-        this.setState({ account_name: accountDetails.account_name });
+        const message = res.data.message;
+        this.setState({ message: message });
       },
       error => {
         console.log(error.response.status);
@@ -63,29 +74,46 @@ export default class FirstPage extends Component {
     const {
       account_number,
       listBank,
+      balance,
+      currency,
       listCustomers,
-      account_name
+      account_name,
+      message,
     } = this.state;
     return (
-      <form onSubmit={this.verify}>
+      <div>
+      <form >
         <div>
           <label className="">
             Account Number
-            <span className="">*</span>
+          <span className="">*</span>
           </label>
           <input
             type="text"
             name="account_number"
             required
             placeholder="Enter Account Number"
+            onChange = {this.handleChange}
           />
         </div>
-
+        <div>
+          <label className="">
+            Name
+          <span className="">*</span>
+          </label>
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Enter Name"
+            onChange = {this.handleChange}
+          />
+        </div>
         <div>
           <select
             className="form-control"
             required
-            name="type"
+            name="bank_code"
             onChange={this.handleChange}
           >
             <option value="">Select Bank</option>
@@ -99,11 +127,13 @@ export default class FirstPage extends Component {
             <option value="">Others</option>
           </select>
         </div>
-        <span>{account_name}</span>
-        <button className="btn btn-primary bd-0" type="submit">
+        <span>{message}</span>
+        <button className="btn btn-primary bd-0" type="button" onClick={this.addTransferRecipient}>
           submit
           </button>
       </form>
+    
+      </div>
     );
   }
 }
