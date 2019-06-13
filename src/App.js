@@ -4,6 +4,7 @@ import logo from './logo.svg';
 // DeleteTransfer from './components/deleteTransfer';
 import VerifyAccount from './components/verifyAccount';
 import ListTransferRecipients from './components/listTransferRecipients';
+import CreateTransferRecipients from './components/createTransferRecipient';
 import TransferPage from './components/transferPage';
 import BulkTransferPage from './components/bulkTransferPage';
 import './App.css';
@@ -23,6 +24,7 @@ function App() {
     <div className="App">
      {/*<DeleteTransfer axiosInstance = {axiosInstance}/>*/}
      <VerifyAccount axiosInstance = {axiosInstance}/>
+     <CreateTransferRecipients axiosInstance = {axiosInstance}/>
      <ListTransferRecipients axiosInstance = {axiosInstance}/>
      <TransferPage axiosInstance = {axiosInstance}/>
      <BulkTransferPage axiosInstance = {axiosInstance} />

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 
-export default class CreateTransferRecipient extends Component {
+export default class CreateTransferRecipients extends Component {
   //add verification to ensure account added is correct
   
   constructor(props) {
