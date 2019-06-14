@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import API from "../API/API"
 
 export default class DeleteTransfer extends Component {
   constructor(props) {
@@ -8,24 +9,18 @@ export default class DeleteTransfer extends Component {
       type: "nuban",
       account_number: "",
       account_name: "",
-      listCustomers:{
-        name:"",
-        email:"",
-        details:{
-          bank_name:""
-        }
-      } ,
+      recipientId:"",
  
     };
 
-    //    this.handleChange = this.handleChange.bind(this);
+     this.handleChange = this.handleChange.bind(this);
     //    this.verify = this.verify.bind(this);
-    //  this.handleSubmit = this.handleSubmit.bind(this);
+     this.handleDelete = this.handleDelete.bind(this);
   }
-
+  
   handleDelete(){
-    const {axiosInstance} = this.props
-    axiosInstance.delete('transferrecipient/'+this.state.recipientId).then(
+    const{recipientId} = this.state;
+    API.delete('transferrecipient/'+recipientId).then(
       res => {
         console.log(res);
         const message = res.data.message;
@@ -37,60 +32,41 @@ export default class DeleteTransfer extends Component {
     );
   }
 
-  componentDidMount() {
-    const {axiosInstance} = this.props
-    axiosInstance.get("transferrecipient").then(
-      res => {
-        const customers = res.data.data;
-        console.log(customers)
-        this.setState(
-          {listCustomers:customers
-          //isLoading: false
-        });
-        console.log(this.state.listCustomers)
-      },
-      error => {
-        console.log(error.response.status);
-      }
-    );
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
+
 
   render() {
     const {
 
-      listCustomers,
+      list,
+      recipientId
      
+    } = this.props;
+    const {
+      message,
     } = this.state;
+  
     return (
       <div>
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Bank</th>
-            <th>Type</th>
-            <th>Delete</th>
-          </tr>
-          {listCustomers.length > 1 ? (
-            listCustomers.map(customer => (
-              <tr>
-                <th>{customer.name}</th>
-                <th>{customer.details.bank_name}</th>
-                <th>{customer.type}</th>
-                <th><select name = "id", onChange={this.handleChange}>
-                    <option value={customer.id} > Delete </option>
-                    <option value={customer.id}> Update </option>
-                  </select></th>
-               
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <th>{listCustomers.name}</th>
-              <th>{listCustomers.details.bank_name}</th>
-              <th>{listCustomers.type}</th>
-            </tr>
-          ) }
-        </table>
+            <select
+              name="recipientId"
+              onChange={this.handleChange}
+              placeholder="Select recipient"
+              value={recipientId}
+            >
+              <option value="">Select recipient</option>
+              {list.length>=1?
+                list.map(recipients => (
+                  <option key={recipients.name} value={recipients.id}>{recipients.name}</option>
+                )
+              ):" " }
+            </select>
+            <button type ="button" onClick={this.handleDelete}>Delete</button>
+
+                    <p>{message}</p>
       </div>
     );
   }

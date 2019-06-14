@@ -1,4 +1,14 @@
 import React, { Component, Fragment } from "react";
+import axios from 'axios';
+
+const axiosInstance =  axios.create({
+  baseURL: "https://api.paystack.co/",
+  timeout: 5000,
+  headers: {
+    Authorization: "Bearer sk_test_cf0616be6156226583bf8ad620f490ae5fa27e5d"
+    //  'Content-Type': 'application/json'
+  }
+});
 
 export default class TransferPage extends Component {
   constructor(props) {
@@ -26,7 +36,6 @@ export default class TransferPage extends Component {
   }
 
   transferFunds() {
-    const {axiosInstance} = this.props
     const {
       amount, 
       reason, 
@@ -57,7 +66,6 @@ export default class TransferPage extends Component {
   }
 
   verifyOTP(){
-    const {axiosInstance} = this.props
     const {
       transfer_code,
       otp
@@ -85,8 +93,12 @@ export default class TransferPage extends Component {
   }
 
   render() {
-    const { amount, reason, error, otp, transfer_code, payConfirm, message } = this.state;
-    const {listRecipients} = this.props
+    const { amount, reason, error, otp, recipient, transfer_code, payConfirm, message } = this.state;
+    const {listRecipients, singleTransfer} = this.props
+
+    if(!singleTransfer){
+      return null;
+    }
 
     
     return (
@@ -115,6 +127,7 @@ export default class TransferPage extends Component {
               name="recipient"
               onChange={this.handleChange}
               placeholder="Select recipient"
+              value={recipient}
             >
               <option value="">Select recipient</option>
               {listRecipients.length>1?

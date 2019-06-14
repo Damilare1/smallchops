@@ -19,7 +19,11 @@ export default class ListTransferRecipient extends Component {
 
  
   render() {
-    const {listRecipients} = this.props
+    const {listRecipients, list} = this.props
+
+    if(!list){
+      return null;
+    }
 
     return (
       <div>
