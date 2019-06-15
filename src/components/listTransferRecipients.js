@@ -8,7 +8,7 @@ export default class ListTransferRecipient extends Component {
 
     this.state = {
  
-      listCustomers:[] ,
+      listRecipients:[] ,
       
     };
 
@@ -17,15 +17,22 @@ export default class ListTransferRecipient extends Component {
     //  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
- 
+ componentWillReceiveProps(nextProps){
+    this.loadProps(nextProps);
+ }
+
+ loadProps(props){
+    this.setState({listRecipients: props.listRecipients});
+ }
   render() {
-    const {listRecipients, list} = this.props
+    const { list,reload} = this.props;
+    const {listRecipients} = this.state;
 
     if(!list){
-      return null;
+      return null
     }
 
-    return (
+   return (
       <div>
         <table>
           <tr>

@@ -10,6 +10,7 @@ export default class DeleteTransfer extends Component {
       account_number: "",
       account_name: "",
       recipientId:"",
+      listRecipients:[],
  
     };
 
@@ -17,14 +18,24 @@ export default class DeleteTransfer extends Component {
     //    this.verify = this.verify.bind(this);
      this.handleDelete = this.handleDelete.bind(this);
   }
+
+  componentWillReceiveProps(nextProps){
+    this.loadProps(nextProps);
+ }
+
+ loadProps(props){
+    this.setState({listRecipients: props.listRecipients});
+ }
   
   handleDelete(){
     const{recipientId} = this.state;
+    const{reload} = this.props;
     API.delete('transferrecipient/'+recipientId).then(
       res => {
         console.log(res);
         const message = res.data.message;
         this.setState({ message: message })
+        reload();
       },
       error => {
         console.log(error.response.status);
@@ -40,14 +51,18 @@ export default class DeleteTransfer extends Component {
 
   render() {
     const {
-
-      list,
-      recipientId
+      deletePage,
      
     } = this.props;
     const {
       message,
+      listRecipients,
+      recipientId,
     } = this.state;
+
+    if(!deletePage){
+      return null;
+    }
   
     return (
       <div>
@@ -58,8 +73,8 @@ export default class DeleteTransfer extends Component {
               value={recipientId}
             >
               <option value="">Select recipient</option>
-              {list.length>=1?
-                list.map(recipients => (
+              {listRecipients.length>=1?
+                listRecipients.map(recipients => (
                   <option key={recipients.name} value={recipients.id}>{recipients.name}</option>
                 )
               ):" " }

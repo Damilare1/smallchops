@@ -41,16 +41,29 @@ export default class App extends Component {
       recipientList: false,
       singleTransfer: false,
       multipleTransfer: false,
+      deletePage: false,
+      reload:false,
     };
   this.showRecipientList = this.showRecipientList.bind(this);
   this.showSingleTransfer = this.showSingleTransfer.bind(this);
   this.showMultipleTransfer = this.showMultipleTransfer.bind(this);
+  this.showDeletePage = this.showDeletePage.bind(this);
+  this.reload = this.reload.bind(this);
+  this.onRender = this.onRender.bind(this);
   }
 
   showMultipleTransfer(){
     this.setState({multipleTransfer:!this.state.multipleTransfer})
   }
 
+  showDeletePage(){
+    this.setState({deletePage: !this.state.deletePage})
+  }
+
+ 
+  reload(){
+    this.setState({reload:!this.state.reload});
+  }
 
   showRecipientList(){
     this.setState({recipientList:!this.state.recipientList})
@@ -70,27 +83,39 @@ export default class App extends Component {
   getBalance(){
     return  axiosInstance.get("balance");
   }
-  componentDidMount() {
+
+  onRender(){
     axios.all([this.getTransferRecipient(), this.getBankList(), this.getBalance()]).then(axios.spread((recipients, banks, balance)=>{
-        this.setState({
-          listRecipients: recipients.data.data,
-          listBank: banks.data.data,
-          balance: balance.data.data[0].balance/100,
-          currency: balance.data.data[0].currency,
-        })
-    }))
+      this.setState({
+        listRecipients: recipients.data.data,
+        listBank: banks.data.data,
+        balance: balance.data.data[0].balance/100,
+        currency: balance.data.data[0].currency,
+      })
+  }))
+  }
+  componentDidMount() {
+   this.onRender();
   }
 
   render() {
-    const {listRecipients, listBank, balance, currency, recipientList, singleTransfer, multipleTransfer} =this.state;
+   
+    const {listRecipients, listBank, balance, currency, recipientList, singleTransfer, multipleTransfer, deletePage, reload} =this.state;
+    if(reload){
+      for(var i =0; i<=1; i++){
+      this.onRender();
+      console.log(listRecipients)
+    }
+    this.setState({reload:!reload})
+  }
     return (
       <div className="App">
         <Balance balance={balance} currency={currency} listBank={listBank}  />
-        <CreateTransferRecipients showMultipleTransfer={this.showMultipleTransfer} showSingleTransfer={this.showSingleTransfer} showList={this.showRecipientList} listBank={listBank}  />
-        <ListTransferRecipients list={recipientList} listRecipients={listRecipients}  />
-        <TransferPage singleTransfer={singleTransfer}  listRecipients={listRecipients}  />
+        <CreateTransferRecipients showMultipleTransfer={this.showMultipleTransfer} showSingleTransfer={this.showSingleTransfer} showList={this.showRecipientList} showDeletePage={this.showDeletePage} reload={this.reload} listBank={listBank}  />
+        <ListTransferRecipients list={recipientList} listRecipients={listRecipients} reload={reload} />
+        <TransferPage singleTransfer={singleTransfer} reload={this.reload} listRecipients={listRecipients}  />
         <BulkTransferPage multipleTransfer={multipleTransfer} listRecipients={listRecipients}  />
-        <DeleteTransfer list={listRecipients}/>
+        <DeleteTransfer deletePage={deletePage}  reload={this.reload} listRecipients={listRecipients}/>
       </div>
     );
   }

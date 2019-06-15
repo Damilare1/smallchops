@@ -7,17 +7,25 @@ export default class Balance extends Component {
     super(props);
     
     this.state = {
+      balance:'',
+      currency:''
   };
     
     //  this.handleSubmit = this.handleSubmit.bind(this);
   }
+  componentWillReceiveProps(nextProps){
+    this.loadProps(nextProps);
+ }
 
+ loadProps(props){
+    this.setState({balance: props.balance, currency:props.currency});
+ }
 
   render() {
     const {
       balance,
       currency,
-    } = this.props;
+    } = this.state;
     return (
       <div>
         <p>{balance} <span>{currency}</span></p>

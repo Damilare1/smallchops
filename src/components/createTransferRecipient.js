@@ -24,6 +24,7 @@ const initialState = {
   message:"",
   confirmed: false,
   
+  
 };
 
 export default class CreateTransferRecipients extends Component {
@@ -40,9 +41,6 @@ export default class CreateTransferRecipients extends Component {
     //  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-  
-  }
 
   verify() {
     const { account_number, bank_code } = this.state;
@@ -69,6 +67,7 @@ export default class CreateTransferRecipients extends Component {
 
   addTransferRecipient() {
     const { account_number, bank_code, type,  currency, account_name  } = this.state;
+    const {reload} = this.props;
     axiosInstance.post("transferrecipient",{
           type:type,
           name:account_name,
@@ -83,7 +82,10 @@ export default class CreateTransferRecipients extends Component {
         this.setState({ 
           message: message,
           account_name:'',
+          account_number:'',
+          bank_code:'',
          });
+         reload();
       },
       error => {
         console.log(error.response);
@@ -108,13 +110,15 @@ export default class CreateTransferRecipients extends Component {
       listBank,
       showList,
       showSingleTransfer,
-      showMultipleTransfer
+      showMultipleTransfer,
+      showDeletePage,
     } = this.props;
     return (
       <div>
         <button type = "button" onClick={showList}> List </button>
         <button type = "button" onClick={showSingleTransfer}> Transfer </button>
         <button type = "button" onClick={showMultipleTransfer}> Multiple Transfer </button>
+        <button type = "button" onClick={showDeletePage}> Delete </button>
 
       <form >
         <div>

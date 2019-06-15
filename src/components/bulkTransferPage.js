@@ -18,16 +18,16 @@ const axiosInstance =  axios.create({
     name:""
   },
   row:[],
+  listRecipients:[],
+  elem:false,
   currency: "NGN",
-  reason: "",
-  reference: "",
   message: '',
   error:'',
-  transfer_code:'',
-  otp:'',
   payConfirm: '',
   index:'',
   recipient_code:'',
+  reload:false,
+  warning: false,
 };
 export default class BulkTransfer extends Component {
   constructor(props) {
@@ -38,15 +38,26 @@ export default class BulkTransfer extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeList = this.handleChangeList.bind(this);
-    //    this.verify = this.verify.bind(this);
-    //  this.handleSubmit = this.handleSubmit.bind(this);
+    this.clearState = this.clearState.bind(this);
     this.transferFunds = this.transferFunds.bind(this);
     this.addRow = this.addRow.bind(this);
-    //this.verifyOTP = this.verifyOTP.bind(this);
+    this.removeRow = this.removeRow.bind(this);
+    this.showWarning = this.showWarning.bind(this);
   }
 
   clearState(e){
-    this.setState(initialState);
+    this.setState({
+      row:[],
+      amount:'',
+      index:'',
+      reload:!this.state.reload,
+      warning:!this.state.warning,
+    });
+    
+ }
+
+ showWarning(){
+   this.setState({warning:!this.state.warning});
  }
 
 
@@ -70,11 +81,13 @@ export default class BulkTransfer extends Component {
           this.setState({ 
             message: message,
             error: "" });
+          this.clearState();
+          this.showWarning();
         },
         error => {
           console.log(error);
           this.setState({
-            error:error.response,
+            error:error.response.status,
             message: "",
           })
         }
@@ -104,24 +117,56 @@ export default class BulkTransfer extends Component {
      
     }
     row.push(recipientObj);
-    this.setState({row: row, recipient:{}})
+    this.setState({row: row, recipient:{}, elem: true,})
   }
 
+  removeRow(){
+    let {row,} = this.state
+    row.pop();
+    this.setState({row:row})
+  }
+
+componentWillReceiveProps(nextProps){
+    this.loadProps(nextProps);
+ }
+
+ loadProps(props){
+    this.setState({listRecipients: props.listRecipients});
+ }
+
   render() {
-    const { amount, row, recipient, index, message, error } = this.state;
-    const {listRecipients, multipleTransfer} = this.props
+    const { amount, row, elem, index, message, error, reload, warning,listRecipients, } = this.state;
+    const { multipleTransfer} = this.props
     
+    if(reload){
+      this.clearState();
+      console.log(row)
+    }
     if(!multipleTransfer){
       return null;
     }
     return (
       <div>
+     { warning?
+     <div>
+        <h3>Are sure you want to pay</h3>
+        <ul>
+        {row ? row.map(rows => (
+          <li> {rows.amount / 100}      {rows.name}</li>
+        )):""}
+      </ul> 
+      <button type="button" onClick={this.transferFunds}>Yes, I am</button>        <button type="button" onClick={this.clearState}>Cancel</button>
+
+    </div>  
+         :
+        <div>
       <ul>
-        {row.length>=1 ? row.map(rows => (
+        {row ? row.map(rows => (
           <li> {rows.amount / 100}      {rows.name}</li>
         )):""}
       </ul>    
-      <form>
+
+     <form>
               <input 
               placeholder = "amount"
               type = "number"
@@ -148,9 +193,15 @@ export default class BulkTransfer extends Component {
             
         
         <button type="button" onClick={this.addRow}>add</button>
-        <button type="button" onClick={this.transferFunds}>pay</button>
+        <button type="button" onClick={this.showWarning}>pay</button>
+        {elem? 
+        <div>
+          <button type="button" onClick={this.clearState}>clear</button>        <button type="button" onClick={this.removeRow}>remove last</button>
+        </div>:" "}
         <p>{message || error}</p>
       </form>
+      </div>
+      }
       </div>
     );
   }
