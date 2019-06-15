@@ -123,22 +123,22 @@ export default class App extends Component {
       <div className="App">
         <div className="Navbar">
                 
-        <div type="button" onClick={this.showList}>
+        <button type="button" onClick={this.showRecipientList}>
           {" "}
           List{" "}
-        </div>
-        <div type="button" onClick={this.showSingleTransfer}>
+        </button>
+        <button type="button" onClick={this.showSingleTransfer}>
           {" "}
           Transfer{" "}
-        </div>
-        <div type="button" onClick={this.showMultipleTransfer}>
+        </button>
+        <button type="button" onClick={this.showMultipleTransfer}>
           {" "}
           Multiple Transfer{" "}
-        </div>
-        <div type="button" onClick={this.showDeletePage}>
+        </button>
+        <button type="button" onClick={this.showDeletePage}>
           {" "}
           Delete{" "}
-        </div>
+        </button>
 
 
         </div>
