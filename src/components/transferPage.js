@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -55,8 +55,7 @@ export default class TransferPage extends Component {
 
   transferFunds() {
     const { amount, reason, recipient, currency, source } = this.state;
-    const { reload } = this.props;
-    console.log(amount + " " + reason + " " + recipient + " " + currency + " ");
+    const {reload} =this.props;
     axiosInstance
       .post("transfer", {
         amount: amount * 100,
@@ -67,10 +66,10 @@ export default class TransferPage extends Component {
       })
       .then(
         res => {
-          console.log(res);
           const message = res.data.message;
           this.setState({ message: message });
           this.clearState();
+          reload()
         },
         error => {
           console.log(error.response);
@@ -88,7 +87,6 @@ export default class TransferPage extends Component {
       })
       .then(
         res => {
-          console.log(res);
           const message = res.data.message;
           this.setState({ message: message });
         },
@@ -120,7 +118,6 @@ export default class TransferPage extends Component {
       reason,
       error,
       otp,
-      recipient,
       transfer_code,
       payConfirm,
       message,
@@ -136,6 +133,7 @@ export default class TransferPage extends Component {
 
     return (
       <div>
+        <h3>Single Transfer</h3>
         {warning ? (
           <div>
             {" "}
@@ -180,7 +178,7 @@ export default class TransferPage extends Component {
                   value={index}
                 >
                   <option value="">Select recipient</option>
-                  {listRecipients.length > 1
+                  {listRecipients.length >= 1
                     ? listRecipients.map((recipients, index) => (
                         <option value={index}>{recipients.name}</option>
                       ))

@@ -1,62 +1,49 @@
 import React, { Component } from "react";
 
-
 export default class ListTransferRecipient extends Component {
-  //delete recipients to work on the list
   constructor(props) {
     super(props);
 
     this.state = {
- 
-      listRecipients:[] ,
-      
+      listRecipients: []
     };
-
-    //    this.handleChange = this.handleChange.bind(this);
-    //    this.verify = this.verify.bind(this);
-    //  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
- componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.loadProps(nextProps);
- }
+  }
 
- loadProps(props){
-    this.setState({listRecipients: props.listRecipients});
- }
+  loadProps(props) {
+    this.setState({ listRecipients: props.listRecipients });
+  }
   render() {
-    const { list,reload} = this.props;
-    const {listRecipients} = this.state;
+    const { list } = this.props;
+    const { listRecipients } = this.state;
 
-    if(!list){
-      return null
+    if (!list) {
+      return null;
     }
 
-   return (
+    return (
       <div>
-        <table>
+        <h3>List of Transfer recipients</h3>
+      <div className="table-responsive">
+        <table className="table table-striped mg-b-0">
           <tr>
             <th>Name</th>
             <th>Bank</th>
-            <th>Type</th>
+            <th>Account Number</th>
           </tr>
-          {listRecipients.length >= 1 ? (
-            listRecipients.map(customer => (
+          {listRecipients.map(customer => (
               <tr>
                 <th>{customer.name}</th>
                 <th>{customer.details.bank_name}</th>
-                <th>{customer.type}</th>
-               
+                <th>{customer.details.account_number}</th>
               </tr>
             ))
-          ) : (
-            <tr>
-              <th>{listRecipients.name}</th>
-              <th>{/*listCustomers.details.bank_name*/}</th>
-              <th>{listRecipients.type}</th>
-            </tr>
-          ) }
+          }
         </table>
+      </div>
       </div>
     );
   }
