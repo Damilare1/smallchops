@@ -80,9 +80,13 @@ export default class BulkTransfer extends Component {
         },
         error => {
           this.setState({
-            error: error.response.status,
+            error: error.response.data.message,
             message: ""
           });
+          this.clearState();
+          this.showWarning();
+          reload();
+
         }
       );
   }
@@ -111,7 +115,7 @@ export default class BulkTransfer extends Component {
       name: recipient.name
     };
     row.push(recipientObj);
-    this.setState({ row: row, recipient: {}, elem: true });
+    this.setState({ row: row, recipient: {},index:'', amount:'', elem: true });
   }
 
   removeRow() {
