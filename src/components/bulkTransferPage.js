@@ -171,7 +171,7 @@ export default class BulkTransfer extends Component {
             <button type="button" onClick={this.transferFunds}>
               Yes, I am
             </button>{" "}
-            <button type="button" onClick={this.clearState}>
+            <button type="button" onClick={this.showWarning}>
               Cancel
             </button>
           </div>
