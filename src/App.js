@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
   baseURL: "https://api.paystack.co/",
   timeout: 15000,
   headers: {
-    Authorization: "Bearer sk_test_cf0616be6156226583bf8ad620f490ae5fa27e5d"
+    Authorization: process.env.REACT_APP_AUTH_KEY
   }
 });
 
@@ -97,6 +97,7 @@ export default class App extends Component {
       );
   }
   componentDidMount() {
+    console.log(process.env.REACT_APP_AUTH_KEY)
     this.onRender();
   }
 
