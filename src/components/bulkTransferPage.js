@@ -185,7 +185,9 @@ export default class BulkTransfer extends Component {
             </ul>
 
             <form>
+              <div className="row row-sm">
               <input
+                className="col-lg-3 col-sm-3"
                 placeholder="amount"
                 type="number"
                 required
@@ -194,6 +196,7 @@ export default class BulkTransfer extends Component {
                 onChange={this.handleChange}
               />
               <select
+                className="col-lg-3 col-sm-6"
                 placeholder="recipient"
                 type="text"
                 required
@@ -208,7 +211,7 @@ export default class BulkTransfer extends Component {
                     ))
                   : " "}
               </select>
-
+              </div>
               <button type="button" onClick={this.addRow}>
                 add
               </button>

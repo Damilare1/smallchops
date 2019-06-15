@@ -129,11 +129,9 @@ export default class CreateTransferRecipients extends Component {
         <form>
           <div>
             <h3>Add transfer recipient</h3>
-            <label className="">
-              Account Number
-              <span className="">*</span>
-            </label>
-            <input
+            <div className="row row-sm">
+             <input
+              className="col-lg-2 col-sm-3"
               type="text"
               name="account_number"
               required
@@ -141,10 +139,8 @@ export default class CreateTransferRecipients extends Component {
               value={account_number}
               onChange={this.handleChange}
             />
-          </div>
-          <div>
-            <select
-              className="form-control"
+           <select
+              className="col-lg-3 col-sm-3"
               required
               name="bank_code"
               value={bank_code}
@@ -160,6 +156,7 @@ export default class CreateTransferRecipients extends Component {
 
               <option value="">Others</option>
             </select>
+            </div>
           </div>
           <span>{account_name || message}</span>
           <button

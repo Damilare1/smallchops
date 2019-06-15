@@ -20,11 +20,11 @@ export default class Balance extends Component {
   render() {
     const { balance, currency } = this.state;
     return (
-      <div>
-        <p>Balance</p>
-        <span>
+      <div className= "row">
+        <p className="mg-b-0">Balance:</p>
+        <p >
           {balance} <span>{currency}</span>
-        </span>
+        </p>
       </div>
     );
   }

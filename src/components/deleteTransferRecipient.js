@@ -56,6 +56,7 @@ export default class DeleteTransfer extends Component {
     return (
       <div>
         <h3>Delete transfer recipient</h3>
+        <div className="row">
         <select
           name="recipientId"
           onChange={this.handleChange}
@@ -71,6 +72,7 @@ export default class DeleteTransfer extends Component {
               ))
             : " "}
         </select>
+        </div>
         <button type="button" onClick={this.handleDelete}>
           Delete
         </button>

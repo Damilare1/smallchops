@@ -152,28 +152,29 @@ export default class TransferPage extends Component {
         ) : (
           <div>
             <form>
-              <div>
+              <div className="row row-sm">
                 <input
                   name="amount"
                   type="number"
+                  className="col-lg-3 col-sm-3"
                   onChange={this.handleChange}
                   placeholder="Enter Amount"
                   value={amount}
                 />
-              </div>
-              <div>
+            
                 <input
                   name="reason"
                   type="text"
+                  className="col-lg-3 col-sm-3"
                   onChange={this.handleChange}
                   placeholder="Enter Reason for Transfer"
                   value={reason}
                 />
-              </div>
-              <div>
+             
                 <select
                   name="recipient"
                   onChange={this.handleChangeList}
+                  className="col-lg-3 col-sm-3"
                   placeholder="Select recipient"
                   value={index}
                 >
