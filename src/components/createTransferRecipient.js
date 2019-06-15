@@ -21,7 +21,8 @@ const initialState = {
   description: "",
   authorizationCode: "",
   message: "",
-  confirmed: false
+  confirmed: false,
+  error:'',
 };
 
 export default class CreateTransferRecipients extends Component {
@@ -50,7 +51,9 @@ export default class CreateTransferRecipients extends Component {
           const accountDetails = res.data.data;
           this.setState({ account_name: accountDetails.account_name });
         },
-        error => {}
+        error => {
+          this.setState({error:error.response.data.message})
+        }
       );
   }
 
@@ -87,7 +90,7 @@ export default class CreateTransferRecipients extends Component {
           reload();
         },
         error => {
-          console.log(error.response);
+          console.log(error);
         }
       );
   }
@@ -98,14 +101,10 @@ export default class CreateTransferRecipients extends Component {
   }
 
   render() {
-    const { account_name, message, account_number, bank_code } = this.state;
+    const { account_name, message, error, account_number, bank_code } = this.state;
 
     const {
       listBank,
-      showList,
-      showSingleTransfer,
-      showMultipleTransfer,
-      showDeletePage
     } = this.props;
     return (
       <div>
@@ -141,7 +140,7 @@ export default class CreateTransferRecipients extends Component {
             </select>
             </div>
           </div>
-          <span>{account_name || message}</span>
+          <span>{account_name || message ||error}</span>
           <button
             className="btn btn-primary bd-0"
             type="button"
