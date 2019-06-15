@@ -85,7 +85,8 @@ export default class CreateTransferRecipients extends Component {
             message: message,
             account_name: "",
             account_number: "",
-            bank_code: ""
+            bank_code: "",
+            error:'',
           });
           reload();
         },
