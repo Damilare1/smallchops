@@ -109,23 +109,6 @@ export default class CreateTransferRecipients extends Component {
     } = this.props;
     return (
       <div>
-        <button type="button" onClick={showList}>
-          {" "}
-          List{" "}
-        </button>
-        <button type="button" onClick={showSingleTransfer}>
-          {" "}
-          Transfer{" "}
-        </button>
-        <button type="button" onClick={showMultipleTransfer}>
-          {" "}
-          Multiple Transfer{" "}
-        </button>
-        <button type="button" onClick={showDeletePage}>
-          {" "}
-          Delete{" "}
-        </button>
-
         <form>
           <div>
             <h3>Add transfer recipient</h3>

@@ -121,6 +121,27 @@ export default class App extends Component {
     }
     return (
       <div className="App">
+        <div>
+                
+        <button type="button" onClick={this.showList}>
+          {" "}
+          List{" "}
+        </button>
+        <button type="button" onClick={this.showSingleTransfer}>
+          {" "}
+          Transfer{" "}
+        </button>
+        <button type="button" onClick={this.showMultipleTransfer}>
+          {" "}
+          Multiple Transfer{" "}
+        </button>
+        <button type="button" onClick={this.showDeletePage}>
+          {" "}
+          Delete{" "}
+        </button>
+
+
+        </div>
         <Balance balance={balance} currency={currency} listBank={listBank} />
         <CreateTransferRecipients
           showMultipleTransfer={this.showMultipleTransfer}
