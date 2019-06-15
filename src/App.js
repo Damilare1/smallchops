@@ -120,24 +120,24 @@ export default class App extends Component {
     }
     return (
       <div className="App">
-        <div className="navbar">
+        <div>
                 
-        <div  onClick={this.showRecipientList}>
+        <button type="button" onClick={this.showRecipientList}>
           {" "}
           List{" "}
-        </div>
-        <div  onClick={this.showSingleTransfer}>
+        </button>
+        <button type="button" onClick={this.showSingleTransfer}>
           {" "}
           Transfer{" "}
-        </div>
-        <div  onClick={this.showMultipleTransfer}>
+        </button>
+        <button type="button" onClick={this.showMultipleTransfer}>
           {" "}
           Multiple Transfer{" "}
-        </div>
-        <div  onClick={this.showDeletePage}>
+        </button>
+        <button type="button" onClick={this.showDeletePage}>
           {" "}
           Delete{" "}
-        </div>
+        </button>
 
 
         </div>
