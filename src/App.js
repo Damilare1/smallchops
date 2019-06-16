@@ -52,11 +52,20 @@ export default class App extends Component {
   }
 
   showMultipleTransfer() {
-    this.setState({ multipleTransfer: !this.state.multipleTransfer });
+    this.setState({ 
+      multipleTransfer: !this.state.multipleTransfer,
+      recipientList: false,
+      singleTransfer: false,
+      deletePage: false,
+     });
   }
 
   showDeletePage() {
-    this.setState({ deletePage: !this.state.deletePage });
+    this.setState({ 
+      deletePage: !this.state.deletePage,
+      multipleTransfer: false,
+      recipientList: false,
+      singleTransfer: false, });
   }
 
   reload() {
@@ -64,11 +73,21 @@ export default class App extends Component {
   }
 
   showRecipientList() {
-    this.setState({ recipientList: !this.state.recipientList });
+    this.setState({ 
+      recipientList: !this.state.recipientList,
+      multipleTransfer: false,
+      singleTransfer: false,
+      deletePage: false,
+    });
   }
 
   showSingleTransfer() {
-    this.setState({ singleTransfer: !this.state.singleTransfer });
+    this.setState({ 
+      singleTransfer: !this.state.singleTransfer,
+      recipientList: false,
+      multipleTransfer: false,
+      deletePage: false,    
+    });
   }
 
   getTransferRecipient() {
@@ -121,27 +140,31 @@ export default class App extends Component {
     return (
       <div className="App">
         <div>
-                
-        <button type="button" onClick={this.showRecipientList}>
+         <nav>
+           <ul>
+           <li type="li" onClick={this.showRecipientList}>
           {" "}
           List{" "}
-        </button>
-        <button type="button" onClick={this.showSingleTransfer}>
+        </li>
+        <li type="li" onClick={this.showSingleTransfer}>
           {" "}
           Transfer{" "}
-        </button>
-        <button type="button" onClick={this.showMultipleTransfer}>
+        </li>
+        <li type="li" onClick={this.showMultipleTransfer}>
           {" "}
           Multiple Transfer{" "}
-        </button>
-        <button type="button" onClick={this.showDeletePage}>
+        </li>
+        <li type="li" onClick={this.showDeletePage}>
           {" "}
           Delete{" "}
-        </button>
-        <button type="button" onClick={this.props.logout}>
+        </li>
+        <li type="li" onClick={this.props.logout}>
           {" "}
           Logout{" "}
-        </button>
+        </li>
+           </ul>
+        </nav>       
+       
 
 
         </div>

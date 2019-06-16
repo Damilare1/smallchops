@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import './style.css';
 
 export default class LoginButton extends Component {
   constructor(props) {
@@ -12,9 +13,19 @@ export default class LoginButton extends Component {
 
   render() {
     return (
-        <button onClick={this.login}>
-        	Log In
-        </button>
+      <div>
+        <nav>
+          <ul>
+            <li>SmallChops.</li>
+          </ul>
+        </nav>
+        <div id="first">
+          <h1>
+            <b>Welcome, Click here to Login</b>
+          </h1>
+          <button onClick={this.login}>Login</button>
+        </div>
+      </div>
     );
   }
 }

@@ -1,4 +1,5 @@
 .App {
+  margin-top:-12px;
   text-align: center;
 }
 
@@ -21,6 +22,15 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.balance{
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+.balance span{
+  font-size: 10px;
 }
 
 @keyframes App-logo-spin {
@@ -358,4 +368,28 @@ li {
     flex: 0 0 100%;
     max-width: 100%;
   }
+}
+
+@media (max-width: 500px) {
+  nav ul{
+    list-style-type: none;
+    color: #FFFFFF;
+    font-family: roboto;
+    font-size: 1em;
+    display: flex;
+    flex-grow: inherit;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+  }
+  
+  ul li:last-of-type{
+    margin-left:0.5em;
+  }
+  
+  ul li{
+    margin-left: 0.5em;
+    cursor: pointer;
+  }
+  
 }

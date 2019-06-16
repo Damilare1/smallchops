@@ -22,7 +22,7 @@ export default class Balance extends Component {
     return (
       <div className= "row">
         <p className="mg-b-0">Balance:</p>
-        <p >
+        <p className="balance">
           {balance} <span>{currency}</span>
         </p>
       </div>
