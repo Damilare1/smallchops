@@ -138,6 +138,10 @@ export default class App extends Component {
           {" "}
           Delete{" "}
         </button>
+        <button type="button" onClick={this.props.logout}>
+          {" "}
+          Logout{" "}
+        </button>
 
 
         </div>
