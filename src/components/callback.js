@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import loading from '../../public/favicon.ico';
+import loading from './loading.svg';
 
 export default class Callback extends Component {
 
@@ -18,7 +18,7 @@ export default class Callback extends Component {
         backgroundColor: 'white',
       }}
       >
-       {/* <img src={loading} alt="loading" />*/}
+        <img src={loading} alt="loading" />
       </div>
     );
   }
