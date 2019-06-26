@@ -27,7 +27,8 @@ export default class TransferPage extends Component {
       otp: "",
       payConfirm: "",
       warning: false,
-      index: ""
+      index: "",
+      status:''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -55,6 +56,7 @@ export default class TransferPage extends Component {
   transferFunds() {
     const { amount, reason, recipient, currency, source } = this.state;
     const {reload} =this.props;
+    axiosInstance.post('transfer/enable_otp');
     axiosInstance
       .post("transfer", {
         amount: amount * 100,
@@ -65,8 +67,12 @@ export default class TransferPage extends Component {
       })
       .then(
         res => {
-          const message = res.data.message;
-          this.setState({ message: message });
+          const data = res.data;
+          this.setState({ 
+            message: data.message,
+            transfer_code: data.data.transfer_code,
+            status: data.data.status,
+             });
           this.clearState();
           reload()
         },
@@ -117,7 +123,7 @@ export default class TransferPage extends Component {
       reason,
       error,
       otp,
-      transfer_code,
+      status,
       payConfirm,
       message,
       warning,
@@ -192,7 +198,7 @@ export default class TransferPage extends Component {
                 Pay
               </button>
             </form>
-            <div>
+            {(status==='otp')?<div>
               <input
                 name="otp"
                 type="text"
@@ -200,18 +206,11 @@ export default class TransferPage extends Component {
                 placeholder="OTP Code"
                 value={otp}
               />
-              <input
-                name="transfer_code"
-                type="text"
-                onChange={this.handleChange}
-                placeholder="Transfer Code"
-                value={transfer_code}
-              />
               <p>{payConfirm}</p>
               <button type="button" onClick={this.verifyOTP}>
                 Confirm OTP
               </button>
-            </div>
+            </div>:''}
           </div>
         )}
       </div>

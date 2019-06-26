@@ -26,7 +26,9 @@ const initialState = {
   index: "",
   recipient_code: "",
   reload: false,
-  warning: false
+  warning: false,
+  otp: "",
+  confirmed: false
 };
 export default class BulkTransfer extends Component {
   constructor(props) {
@@ -57,9 +59,44 @@ export default class BulkTransfer extends Component {
     this.setState({ warning: !this.state.warning });
   }
 
+  disableOTP = () => {
+    axiosInstance.post("transfer/disable_otp").then(res => {
+      this.setState({
+        message: res.data.message,
+        status: res.data.status
+      });
+    });
+  };
+
+  confirm = () => {
+    this.disableOTP();
+    this.setState({
+      confirmed: true
+    });
+  };
+
+  finalizeDisableOTP = () => {
+    const { otp } = this.state;
+    axiosInstance
+      .post("transfer/disable_otp_finalize", {
+        otp: otp
+      })
+      .then(res => {
+        this.setState({
+          message: res.data.message,
+          confirmed: false,
+        });
+        this.transferFunds();
+      });
+  };
+
+  enableOTP = () => {
+    axiosInstance.post("transfer/enable_otp");
+  };
+
   transferFunds() {
     const { row, currency, source } = this.state;
-    const {reload} = this.props;
+    const { reload } = this.props;
     axiosInstance
       .post("transfer/bulk", {
         currency: currency,
@@ -76,7 +113,7 @@ export default class BulkTransfer extends Component {
           this.clearState();
           this.showWarning();
           reload();
-          
+          this.enableOTP();
         },
         error => {
           this.setState({
@@ -86,7 +123,6 @@ export default class BulkTransfer extends Component {
           this.clearState();
           this.showWarning();
           reload();
-
         }
       );
   }
@@ -115,7 +151,13 @@ export default class BulkTransfer extends Component {
       name: recipient.name
     };
     row.push(recipientObj);
-    this.setState({ row: row, recipient: {},index:'', amount:'', elem: true });
+    this.setState({
+      row: row,
+      recipient: {},
+      index: "",
+      amount: "",
+      elem: true
+    });
   }
 
   removeRow() {
@@ -142,7 +184,9 @@ export default class BulkTransfer extends Component {
       error,
       reload,
       warning,
-      listRecipients
+      listRecipients,
+      confirmed,
+      otp
     } = this.state;
     const { multipleTransfer } = this.props;
 
@@ -152,6 +196,7 @@ export default class BulkTransfer extends Component {
     if (!multipleTransfer) {
       return null;
     }
+
     return (
       <div>
         <h3>Multiple Transfer</h3>
@@ -168,9 +213,22 @@ export default class BulkTransfer extends Component {
                   ))
                 : ""}
             </ul>
-            <button type="button" onClick={this.transferFunds}>
-              Yes, I am
-            </button>{" "}
+            {confirmed ? (
+              <div>
+                <input
+                  name="otp"
+                  type="text"
+                  onChange={this.handleChange}
+                  placeholder="OTP Code"
+                  value={otp}
+                />
+                <button type="button" onClick={this.finalizeDisableOTP}>Verify OTP</button>
+              </div>
+            ) : (
+              <button type="button" onClick={this.confirm}>
+                Yes, I am
+              </button>
+            )}{" "}
             <button type="button" onClick={this.showWarning}>
               Cancel
             </button>
@@ -190,31 +248,31 @@ export default class BulkTransfer extends Component {
 
             <form>
               <div className="row row-sm">
-              <input
-                className="col-lg-3 col-sm-3"
-                placeholder="amount"
-                type="number"
-                required
-                name="amount"
-                value={amount}
-                onChange={this.handleChange}
-              />
-              <select
-                className="col-lg-3 col-sm-6"
-                placeholder="recipient"
-                type="text"
-                required
-                name="recipient"
-                value={index}
-                onChange={this.handleChangeList}
-              >
-                <option value="">Select recipient</option>
-                {listRecipients.length >= 1
-                  ? listRecipients.map((recipients, index) => (
-                      <option value={index}>{recipients.name}</option>
-                    ))
-                  : " "}
-              </select>
+                <input
+                  className="col-lg-3 col-sm-3"
+                  placeholder="amount"
+                  type="number"
+                  required
+                  name="amount"
+                  value={amount}
+                  onChange={this.handleChange}
+                />
+                <select
+                  className="col-lg-3 col-sm-6"
+                  placeholder="recipient"
+                  type="text"
+                  required
+                  name="recipient"
+                  value={index}
+                  onChange={this.handleChangeList}
+                >
+                  <option value="">Select recipient</option>
+                  {listRecipients.length >= 1
+                    ? listRecipients.map((recipients, index) => (
+                        <option value={index}>{recipients.name}</option>
+                      ))
+                    : " "}
+                </select>
               </div>
               <button type="button" onClick={this.addRow}>
                 add
