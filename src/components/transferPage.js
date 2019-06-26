@@ -93,7 +93,8 @@ export default class TransferPage extends Component {
       .then(
         res => {
           const message = res.data.message;
-          this.setState({ message: message });
+          this.setState({ message: message,
+          status:"" });
         },
         error => {
           console.log(error.response.status);
