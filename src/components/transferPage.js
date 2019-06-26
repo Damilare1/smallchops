@@ -28,7 +28,7 @@ export default class TransferPage extends Component {
       payConfirm: "",
       warning: false,
       index: "",
-      status:''
+      status: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -55,8 +55,8 @@ export default class TransferPage extends Component {
 
   transferFunds() {
     const { amount, reason, recipient, currency, source } = this.state;
-    const {reload} =this.props;
-    axiosInstance.post('transfer/enable_otp');
+    const { reload } = this.props;
+    axiosInstance.post("transfer/enable_otp");
     axiosInstance
       .post("transfer", {
         amount: amount * 100,
@@ -68,13 +68,13 @@ export default class TransferPage extends Component {
       .then(
         res => {
           const data = res.data;
-          this.setState({ 
+          this.setState({
             message: data.message,
             transfer_code: data.data.transfer_code,
-            status: data.data.status,
-             });
+            status: data.data.status
+          });
           this.clearState();
-          reload()
+          reload();
         },
         error => {
           console.log(error.response);
@@ -166,7 +166,7 @@ export default class TransferPage extends Component {
                   placeholder="Enter Amount"
                   value={amount}
                 />
-            
+
                 <input
                   name="reason"
                   type="text"
@@ -175,7 +175,7 @@ export default class TransferPage extends Component {
                   placeholder="Enter Reason for Transfer"
                   value={reason}
                 />
-             
+
                 <select
                   name="recipient"
                   onChange={this.handleChangeList}
@@ -198,19 +198,23 @@ export default class TransferPage extends Component {
                 Pay
               </button>
             </form>
-            {(status==='otp')?<div>
-              <input
-                name="otp"
-                type="text"
-                onChange={this.handleChange}
-                placeholder="OTP Code"
-                value={otp}
-              />
-              <p>{payConfirm}</p>
-              <button type="button" onClick={this.verifyOTP}>
-                Confirm OTP
-              </button>
-            </div>:''}
+            {status === "otp" ? (
+              <div>
+                <input
+                  name="otp"
+                  type="text"
+                  onChange={this.handleChange}
+                  placeholder="OTP Code"
+                  value={otp}
+                />
+                <p>{payConfirm}</p>
+                <button type="button" onClick={this.verifyOTP}>
+                  Confirm OTP
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         )}
       </div>

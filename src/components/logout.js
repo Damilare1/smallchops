@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 export default class LogoutButton extends Component {
   constructor(props) {
@@ -11,11 +11,6 @@ export default class LogoutButton extends Component {
   }
 
   render() {
-
-    return (
-        <button onClick={this.logout}>
-        	Log Out
-        </button>
-    );
+    return <button onClick={this.logout}>Log Out</button>;
   }
 }

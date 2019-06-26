@@ -84,7 +84,7 @@ export default class BulkTransfer extends Component {
       .then(res => {
         this.setState({
           message: res.data.message,
-          confirmed: false,
+          confirmed: false
         });
         this.transferFunds();
       });
@@ -222,7 +222,9 @@ export default class BulkTransfer extends Component {
                   placeholder="OTP Code"
                   value={otp}
                 />
-                <button type="button" onClick={this.finalizeDisableOTP}>Verify OTP</button>
+                <button type="button" onClick={this.finalizeDisableOTP}>
+                  Verify OTP
+                </button>
               </div>
             ) : (
               <button type="button" onClick={this.confirm}>
