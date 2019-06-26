@@ -55,7 +55,6 @@ export default class TransferPage extends Component {
 
   transferFunds() {
     const { amount, reason, recipient, currency, source } = this.state;
-    const { reload } = this.props;
     axiosInstance.post("transfer/enable_otp");
     axiosInstance
       .post("transfer", {
@@ -74,7 +73,6 @@ export default class TransferPage extends Component {
             status: data.data.status
           });
           this.clearState();
-          reload();
         },
         error => {
           console.log(error.response);
@@ -85,6 +83,7 @@ export default class TransferPage extends Component {
 
   verifyOTP() {
     const { transfer_code, otp } = this.state;
+    const { reload } = this.props;
     axiosInstance
       .post("transfer/finalize_transfer", {
         transfer_code: transfer_code,
@@ -93,8 +92,10 @@ export default class TransferPage extends Component {
       .then(
         res => {
           const message = res.data.message;
-          this.setState({ message: message,
-          status:"" });
+          this.setState({ 
+            message: message,
+            status:"" });
+            reload();
         },
         error => {
           console.log(error.response.status);

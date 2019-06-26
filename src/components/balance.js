@@ -10,14 +10,10 @@ export default class Balance extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    this.loadProps(nextProps);
+    this.setState({ balance: nextProps.balance, currency: nextProps.currency });
   }
 
-  loadProps(props) {
-    this.setState({ balance: props.balance, currency: props.currency });
-  }
-
-  render() {
+    render() {
     const { balance, currency } = this.state;
     return (
       <div className= "row">
