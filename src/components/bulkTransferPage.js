@@ -167,11 +167,7 @@ export default class BulkTransfer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadProps(nextProps);
-  }
-
-  loadProps(props) {
-    this.setState({ listRecipients: props.listRecipients });
+    this.setState({ listRecipients: nextProps.listRecipients });
   }
 
   render() {

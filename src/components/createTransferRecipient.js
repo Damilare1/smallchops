@@ -22,7 +22,7 @@ const initialState = {
   authorizationCode: "",
   message: "",
   confirmed: false,
-  error:'',
+  error: ""
 };
 
 export default class CreateTransferRecipients extends Component {
@@ -52,7 +52,7 @@ export default class CreateTransferRecipients extends Component {
           this.setState({ account_name: accountDetails.account_name });
         },
         error => {
-          this.setState({error:error.response.data.message})
+          this.setState({ error: error.response.data.message });
         }
       );
   }
@@ -86,7 +86,7 @@ export default class CreateTransferRecipients extends Component {
             account_name: "",
             account_number: "",
             bank_code: "",
-            error:'',
+            error: ""
           });
           reload();
         },
@@ -102,46 +102,50 @@ export default class CreateTransferRecipients extends Component {
   }
 
   render() {
-    const { account_name, message, error, account_number, bank_code } = this.state;
-
     const {
-      listBank,
-    } = this.props;
+      account_name,
+      message,
+      error,
+      account_number,
+      bank_code
+    } = this.state;
+
+    const { listBank } = this.props;
     return (
       <div>
         <form>
           <div>
             <h3>Add transfer recipient</h3>
             <div className="row row-sm">
-             <input
-              className="col-lg-2 col-sm-3"
-              type="text"
-              name="account_number"
-              required
-              placeholder="Enter Account Number"
-              value={account_number}
-              onChange={this.handleChange}
-            />
-           <select
-              className="col-lg-3 col-sm-3"
-              required
-              name="bank_code"
-              value={bank_code}
-              onChange={this.handleChange}
-            >
-              <option value="">Select Bank</option>
+              <input
+                className="col-lg-2 col-sm-3"
+                type="text"
+                name="account_number"
+                required
+                placeholder="Enter Account Number"
+                value={account_number}
+                onChange={this.handleChange}
+              />
+              <select
+                className="col-lg-3 col-sm-3"
+                required
+                name="bank_code"
+                value={bank_code}
+                onChange={this.handleChange}
+              >
+                <option value="">Select Bank</option>
 
-              {listBank.map(bank => (
-                <option key={bank.name} value={bank.code}>
-                  {bank.name}
-                </option>
-              ))}
+                {listBank.map(bank => (
+                  <option key={bank.name} value={bank.code}>
+                    {bank.name}
+                  </option>
+                ))}
 
-              <option value="">Others</option>
-            </select>
+                <option value="">Others</option>
+              </select>
             </div>
           </div>
-          <span>{account_name || message ||error}</span>
+          <span>{account_name || message || error}</span>
           <button
             className="btn btn-primary bd-0"
             type="button"

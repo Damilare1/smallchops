@@ -18,11 +18,7 @@ export default class DeleteTransfer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadProps(nextProps);
-  }
-
-  loadProps(props) {
-    this.setState({ listRecipients: props.listRecipients });
+    this.setState({ listRecipients: nextProps.listRecipients });
   }
 
   handleDelete() {
@@ -57,21 +53,21 @@ export default class DeleteTransfer extends Component {
       <div>
         <h3>Delete transfer recipient</h3>
         <div className="row">
-        <select
-          name="recipientId"
-          onChange={this.handleChange}
-          placeholder="Select recipient"
-          value={recipientId}
-        >
-          <option value="">Select recipient</option>
-          {listRecipients.length >= 1
-            ? listRecipients.map(recipients => (
-                <option key={recipients.name} value={recipients.id}>
-                  {recipients.name}
-                </option>
-              ))
-            : " "}
-        </select>
+          <select
+            name="recipientId"
+            onChange={this.handleChange}
+            placeholder="Select recipient"
+            value={recipientId}
+          >
+            <option value="">Select recipient</option>
+            {listRecipients.length >= 1
+              ? listRecipients.map(recipients => (
+                  <option key={recipients.name} value={recipients.id}>
+                    {recipients.name}
+                  </option>
+                ))
+              : " "}
+          </select>
         </div>
         <button type="button" onClick={this.handleDelete}>
           Delete
